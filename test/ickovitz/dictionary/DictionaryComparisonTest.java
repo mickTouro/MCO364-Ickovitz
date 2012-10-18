@@ -10,8 +10,8 @@ public class DictionaryComparisonTest {
 	public void TestDictionaryComparison(){
 		DictionaryComparison dc = new DictionaryComparison();
 		
-		Assert.assertTrue(dc.isWord("vodka"));
-		Assert.assertFalse(dc.isWord("abcd"));
+		Assert.assertTrue(dc.containsBinarySearch("word"));
+		Assert.assertFalse(dc.containsBinarySearch("abcd"));
 	
 	}
 }
