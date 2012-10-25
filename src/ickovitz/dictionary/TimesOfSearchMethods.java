@@ -4,13 +4,15 @@ import java.util.Random;
 
 import javax.print.attribute.standard.DateTimeAtCompleted;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 import sun.util.calendar.BaseCalendar.Date;
 
 public class TimesOfSearchMethods {
 
 	private DictionaryComparison dictionary = new DictionaryComparison();
 	private String[] randomWords = new String[100000];
-	private String[] randomNonsense = new String[100000];
+	private String[] randomNonsense = new String[1000000];
 
 	public TimesOfSearchMethods() {
 		fillRandomWordArray();
@@ -27,12 +29,8 @@ public class TimesOfSearchMethods {
 
 	private void hashMapSearch1000000RandomNonsense() {
 		int hashMapSearchStartTime = (int) System.currentTimeMillis();
-		int index = 0;
-		while (index < 10) {
-			for (String s : randomNonsense) {
-				dictionary.containsHashMapSearch(s);
-			}
-			index++;
+		for (String s : randomNonsense) {
+			dictionary.containsHashMapSearch(s);
 		}
 		int hashMapSearchEndTime = (int) System.currentTimeMillis();
 		System.out.println("Hash Map Search 1,000,000 Random Nonsense: "
@@ -41,8 +39,8 @@ public class TimesOfSearchMethods {
 	}
 
 	private void hashMapSearch1000000RandomWords() {
-		int hashMapSearchStartTime = (int) System.currentTimeMillis();
 		int index = 0;
+		int hashMapSearchStartTime = (int) System.currentTimeMillis();
 		while (index < 10) {
 			for (String s : randomWords) {
 				dictionary.containsHashMapSearch(s);
@@ -56,21 +54,20 @@ public class TimesOfSearchMethods {
 
 	private void binarySearch1000000RandomNonsense() {
 		int binarySearchStartTime = (int) System.currentTimeMillis();
-		int index = 0;
-		while (index < 10) {
-			for (String s : randomNonsense) {
-				dictionary.containsBinarySearch(s);
-			}
-			index++;
+
+		for (String s : randomNonsense) {
+			dictionary.containsBinarySearch(s);
 		}
+
 		int binarySearchEndTime = (int) System.currentTimeMillis();
 		System.out.println("Binary Search 1,000,000 Random Nonesense: "
 				+ (binarySearchEndTime - binarySearchStartTime));
 	}
 
 	private void binarySearch1000000RandomWords() {
-		int binarySearchStartTime = (int) System.currentTimeMillis();
 		int index = 0;
+		int binarySearchStartTime = (int) System.currentTimeMillis();
+	
 		while (index < 10) {
 			for (String s : randomWords) {
 				dictionary.containsBinarySearch(s);
@@ -117,32 +114,17 @@ public class TimesOfSearchMethods {
 
 	public void fillRandomNonsenseArray() {
 		Random random = new Random();
-		String[] words = dictionary.getWordArray();
-		String temporaryWord;
-		String reverse;
-		int number;
-		int index = 0;
-		while (index < 100000) {
-			number = random.nextInt(113808);
 
-			temporaryWord = words[number];
+		RandomStringUtils randomStringGenerator = new RandomStringUtils();
 
-			reverse = "";
-			for (int i = temporaryWord.length() - 1; i >= 0; i--) {
-				reverse += temporaryWord.charAt(i);
-			}
-
-			while (dictionary.containsHashMapSearch(reverse)) {
-				reverse += temporaryWord.charAt(0);
-
-			}
-			randomNonsense[index] = reverse;
-			index++;
+		for (int index = 0; index < 1000000; index++) {
+			randomNonsense[index] = RandomStringUtils
+					.randomAlphabetic(random.nextInt(4) + 4);
 		}
 	}
 
 	public static void main(String[] args) {
-	 new TimesOfSearchMethods();
+		new TimesOfSearchMethods();
 	}
 
 }
