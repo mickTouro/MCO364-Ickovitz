@@ -2,30 +2,12 @@ package ickovitz.dictionary;
 
 import java.util.Random;
 
-import javax.print.attribute.standard.DateTimeAtCompleted;
-
 import org.apache.commons.lang3.RandomStringUtils;
 
-import sun.util.calendar.BaseCalendar.Date;
+public class MultiThreadingDictionaryLookup {
 
-public class TimesOfSearchMethods {
-
-	private DictionaryComparison dictionary = new DictionaryComparison();
-	private String[] randomWords = new String[100000];
-	private String[] randomNonsense = new String[1000000];
-
-	public TimesOfSearchMethods() {
-		fillRandomWordArray();
-		fillRandomNonsenseArray();
-
-		sequentailSearch1000RandomWords();
-		sequentialSearch1000RandomNonsense();
-		binarySearch1000000RandomWords();
-		binarySearch1000000RandomNonsense();
-		hashMapSearch1000000RandomWords();
-		hashMapSearch1000000RandomNonsense();
-
-	}
+	
+/*
 
 	private void hashMapSearch1000000RandomNonsense() {
 		int hashMapSearchStartTime = (int) System.currentTimeMillis();
@@ -90,13 +72,13 @@ public class TimesOfSearchMethods {
 
 	}
 
-	public void sequentailSearch1000RandomWords() {
+	public void sequentailSearch10000RandomWords() {
 		int sequentialSearchStartTime = (int) System.currentTimeMillis();
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 10000; i++) {
 			dictionary.containsSequentialSearch(randomWords[i]);
 		}
 		int sequentialSearchEndTime = (int) System.currentTimeMillis();
-		System.out.println("Sequential Search 1,000 Random Words: "
+		System.out.println("Sequential Search 10,000 Random Words: "
 				+ (sequentialSearchEndTime - sequentialSearchStartTime));
 	}
 
@@ -117,12 +99,21 @@ public class TimesOfSearchMethods {
 
 		for (int index = 0; index < 1000000; index++) {
 			randomNonsense[index] = RandomStringUtils
-					.randomAlphabetic(random.nextInt(5) + 4);
+					.randomAlphabetic(random.nextInt(4) + 4);
 		}
 	}
-
+*/
 	public static void main(String[] args) {
-		new TimesOfSearchMethods();
+		SequentialSearchThread sequentialThread = new SequentialSearchThread();
+		BinarySearchThread binaryThread = new BinarySearchThread();
+		HashMapSearchThread hashThread = new HashMapSearchThread();
+		
+		System.out.println("About to start Thread");
+		sequentialThread.start();
+		binaryThread.start();
+		hashThread.start();
+		System.out.println("I just started Thread");
+
 	}
 
 }
