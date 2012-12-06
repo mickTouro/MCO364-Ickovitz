@@ -20,7 +20,8 @@ public class PageDownloaderThread extends Thread {
 
 	private String siteName;
 	private String siteText;
-	private Pattern p = Pattern.compile("<a href=\"(.+?)\"");
+	private Pattern pattern = Pattern.compile("<a.*?href=\"(.+?)\"",
+			Pattern.CASE_INSENSITIVE);
 	private ArrayList<String> linksList;
 
 	public PageDownloaderThread(String webpage) {
@@ -38,13 +39,13 @@ public class PageDownloaderThread extends Thread {
 			in.close();
 
 			BufferedWriter out = new BufferedWriter(new FileWriter(
-					"downloadedSites/" + DemoMD5.MD5(siteName) + ".txt"));
+					"C:\\downloadedSites/" + DemoMD5.MD5(siteName) + ".txt"));
 			out.write(siteText);
 			out.close();
 
 			findLinks();
-			
-			for(String s: linksList){
+
+			for (String s : linksList) {
 				PageDownloaderThread pdt = new PageDownloaderThread(s);
 				pdt.start();
 			}
@@ -56,10 +57,20 @@ public class PageDownloaderThread extends Thread {
 	}
 
 	public void findLinks() {
-		Matcher m = p.matcher(siteText);
+		Matcher m = pattern.matcher(siteText);
 		linksList = new ArrayList<String>();
-		for (; m.find();) {
-			linksList.add(m.group().substring(9, m.group().length() -1));
+		while (m.find()) {
+			
+			String link = m.group(1);
+			
+			if(link.charAt(0) == '/'){
+				link = siteName + link;
+			}
+			
+			String md5name = DemoMD5.MD5(link) + ".txt";
+			
+			if(md5name. )
+			linksList.add(link);
 
 		}
 	}
