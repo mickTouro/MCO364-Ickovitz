@@ -85,6 +85,10 @@ public class PageDownloaderThread extends Thread {
 			}
 		}
 	}
+	
+	public ArrayList<String> getLinksList(){
+		return linksList;
+	}
 
 	public String getSiteText() {
 		return siteText;

@@ -1,14 +1,31 @@
 package ickovitz.net;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import junit.framework.Assert;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
 public class PageDownloaderThreadTest {
+	
+	@Test
+	public void testFindLinks1() throws IOException, NoSuchAlgorithmException{
+		FileUtils.cleanDirectory(new File("C:\\downloadedSites"));
+		PageDownloaderThread touroDownloader1 = new PageDownloaderThread("http://touro.edu");
+		PageDownloaderThread touroDownloader2 = new PageDownloaderThread("http://touro.edu");
+		touroDownloader1.downloadSiteText();
+		touroDownloader1.findLinks();		
+		touroDownloader2.downloadSiteText();
+		touroDownloader2.findLinks();
+		Assert.assertNotSame(touroDownloader1.getName(), touroDownloader2.getLinksList());
+	}
+	
 
 	Pattern pattern = Pattern.compile("<a.*?href=\"(.+?)\"",
 			Pattern.CASE_INSENSITIVE);
