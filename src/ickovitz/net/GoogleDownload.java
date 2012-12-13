@@ -30,6 +30,7 @@ public class GoogleDownload {
 		System.out.println(webpage);*/
 		
 		URL url = new URL("http://www.google.com");
+		System.out.println(url.toString());
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		
 		InputStream in = connection.getInputStream();
