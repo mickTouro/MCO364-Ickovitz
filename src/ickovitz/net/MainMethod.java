@@ -14,8 +14,7 @@ public class MainMethod {
 			PageSpider pageSpider = new PageSpider("http://www.touro.edu", repository);
 			pageSpider.start();
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		         e.printStackTrace();
 		}
 		
 	}
