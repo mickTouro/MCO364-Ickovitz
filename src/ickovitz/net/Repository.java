@@ -14,21 +14,24 @@ import codeobsessed.MD5.DemoMD5;
 
 public class Repository {
 
-	private File directory = new File("C:\\downloadedSites/");
+	private File directory = new File("C:\\downloadedSites\\");
 
-	public Repository(String directory) {
+	public Repository(String directory) throws IOException {
 		this.directory = new File(directory);
+		deleteCache();
 	}
-	
-	public Repository(File directory){
+
+	public Repository(File directory) throws IOException {
 		this.directory = directory;
+		deleteCache();
 	}
 
-	public boolean isCached(URL url) throws NoSuchAlgorithmException,
-			IOException {
-		File md5name = new File(DemoMD5.MD5(url.toString()) + ".txt");
+	public boolean isCached(URL url) throws IOException,
+			NoSuchAlgorithmException {
+		File md5name = new File(directory + "\\" + DemoMD5.MD5(url.toString())
+				+ ".txt");
 
-		return FileUtils.directoryContains(directory, md5name);
+		return md5name.exists();
 
 	}
 
@@ -36,8 +39,8 @@ public class Repository {
 			IOException {
 		String md5name = new String(DemoMD5.MD5(webpage.getURL().toString())
 				+ ".txt");
-		BufferedWriter out = new BufferedWriter(new FileWriter(directory
-				+ md5name + ".txt"));
+		BufferedWriter out = new BufferedWriter(new FileWriter(
+				directory.toString() + "\\" + md5name));
 		out.write(webpage.getHtml());
 		out.close();
 	}
@@ -50,4 +53,7 @@ public class Repository {
 		this.directory = new File(directory);
 	}
 
+	public File getDirectory() {
+		return directory;
+	}
 }

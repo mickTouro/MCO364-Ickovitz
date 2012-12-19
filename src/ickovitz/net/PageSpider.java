@@ -31,11 +31,13 @@ public class PageSpider extends Thread{
 			InputStream in = httpConnection.getInputStream();
 			webpage.setHtml(IOUtils.toString(in));
 			in.close();
+			repository.save(webpage);
 			
 			
 			for(URL s: webpage.getLinks()){
 				if (!repository.isCached(s)){
-					
+					PageSpider newSpider = new PageSpider(s.toString(), repository);
+					newSpider.start();
 				}
 			}
 			
