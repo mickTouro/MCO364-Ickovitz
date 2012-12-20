@@ -1,18 +1,11 @@
 package ickovitz.net;
 
-import java.io.File;
-import java.io.UnsupportedEncodingException;
+
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.io.FileUtils;
-
-import codeobsessed.MD5.DemoMD5;
 
 public class Webpage {
 
@@ -22,7 +15,7 @@ public class Webpage {
 	private Pattern pattern = Pattern.compile("<a.*?href=\"(.+?)\"",
 			Pattern.CASE_INSENSITIVE);
 
-	public Webpage(String url){
+	public Webpage(String url) {
 		try {
 			this.url = new URL(url);
 		} catch (MalformedURLException e) {
