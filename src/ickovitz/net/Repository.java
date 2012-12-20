@@ -44,6 +44,13 @@ public class Repository {
 		out.close();
 	}
 
+	public String retrieve(URL url) throws NoSuchAlgorithmException,
+			IOException {
+		String fileName = DemoMD5.MD5(url.toString()) + ".txt";
+		return FileUtils.readFileToString(new File(directory + "\\" + fileName));
+	
+	}
+
 	public void deleteCache() throws IOException {
 		FileUtils.cleanDirectory(directory);
 	}

@@ -28,7 +28,7 @@ public class RepositoryTest {
 		thenFileExists();
 
 	}
-	
+
 	@Test
 	public void testDelete() throws IOException, NoSuchAlgorithmException {
 
@@ -40,7 +40,7 @@ public class RepositoryTest {
 		thenRepositoryIsEmpty();
 
 	}
-	
+
 	@Test
 	public void testIsCached() throws IOException, NoSuchAlgorithmException {
 
@@ -51,9 +51,10 @@ public class RepositoryTest {
 		thenIsCached();
 
 	}
-	
+
 	@Test
-	public void testEmptyRepoIsNotCached() throws IOException, NoSuchAlgorithmException {
+	public void testEmptyRepoIsNotCached() throws IOException,
+			NoSuchAlgorithmException {
 
 		givenRepository();
 
@@ -62,16 +63,42 @@ public class RepositoryTest {
 		thenIsNotCached();
 
 	}
-	
-	@Test 
-	public void testNonEmptyRepoIsNotCached() throws IOException, NoSuchAlgorithmException{
-		
+
+	@Test
+	public void testNonEmptyRepoIsNotCached() throws IOException,
+			NoSuchAlgorithmException {
+
 		givenRepository();
-		
+
 		whenDeleteRepository();
 		whenSave();
-		
+
 		thenIsNotCached();
+	}
+
+	@Test
+	public void testRetrieve() throws IOException, NoSuchAlgorithmException {
+
+		givenRepository();
+
+		whenSaveMyHtml();
+
+		thenHtmlRetrieved();
+
+	}
+
+	private void thenHtmlRetrieved() throws NoSuchAlgorithmException,
+			MalformedURLException, IOException {
+		Assert.assertEquals("Here is some sample html code.",
+				repo.retrieve(new URL("http://www.myPage.edu")));
+
+	}
+
+	private void whenSaveMyHtml() throws NoSuchAlgorithmException, IOException {
+		page = new Webpage("http://www.myPage.edu");
+		page.setHtml("Here is some sample html code.");
+		repo.save(page);
+
 	}
 
 	private void thenFileExists() throws NoSuchAlgorithmException,
