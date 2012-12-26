@@ -31,6 +31,7 @@ public class PageSpider extends Thread{
 			InputStream in = httpConnection.getInputStream();
 			webpage.setHtml(IOUtils.toString(in));
 			in.close();
+			webpage.removeLinks();
 			repository.save(webpage);
 			
 			

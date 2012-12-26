@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 public class Webpage {
 
 	private String html;
+	private String linklessHtml;
 	private URL url;
 	private ArrayList<URL> links;
 	private Pattern pattern = Pattern.compile("<a.*?href=\"(.+?)\"",
@@ -53,6 +54,11 @@ public class Webpage {
 		}
 	}
 
+	public void removeLinks(){
+		linklessHtml = html.replaceAll("(?s)<.*?>", "\n");
+		
+	}
+	
 	public void setHtml(String html) {
 		this.html = html;
 		extractLinks();
@@ -64,6 +70,10 @@ public class Webpage {
 
 	public String getHtml() {
 		return html;
+	}
+	
+	public String getLinklessHtml(){
+		return linklessHtml;
 	}
 
 	public URL getURL() {

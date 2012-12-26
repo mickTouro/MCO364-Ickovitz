@@ -40,7 +40,7 @@ public class Repository {
 				+ ".txt");
 		BufferedWriter out = new BufferedWriter(new FileWriter(
 				directory.toString() + "\\" + md5name));
-		out.write(webpage.getHtml());
+		out.write(webpage.getLinklessHtml());
 		out.close();
 	}
 
