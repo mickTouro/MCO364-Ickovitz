@@ -10,17 +10,16 @@ import java.util.regex.Pattern;
 public class Webpage {
 
 	private String html;
-	private String linklessHtml;
+	private String taglessHtml;
 	private URL url;
 	private ArrayList<URL> links;
 	private Pattern pattern = Pattern.compile("<a.*?href=\"(.+?)\"",
-			Pattern.CASE_INSENSITIVE);
+			Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
 
 	public Webpage(String url) {
 		try {
 			this.url = new URL(url);
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -43,19 +42,17 @@ public class Webpage {
 				}
 
 				URL newUrl;
-
-				newUrl = new URL(link);
+                                                       Url = new URL(link);
 
 				links.add(newUrl);
 			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
 
-	public void removeLinks(){
-		linklessHtml = html.replaceAll("(?s)<.*?>", "\n");
+	public void removeTags(){
+		taglessHtml = html.replaceAll("(?s)<.*?>", "\n");
 		
 	}
 	
@@ -73,7 +70,7 @@ public class Webpage {
 	}
 	
 	public String getLinklessHtml(){
-		return linklessHtml;
+		return taglessHtml;
 	}
 
 	public URL getURL() {

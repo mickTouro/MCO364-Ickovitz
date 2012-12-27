@@ -49,7 +49,6 @@ public class RepositoryTest {
 		whenSave();
 
 		thenIsCached();
-
 	}
 
 	@Test
@@ -103,7 +102,7 @@ public class RepositoryTest {
 
 	private void thenFileExists() throws NoSuchAlgorithmException,
 			UnsupportedEncodingException {
-		File file = new File("C:\\downloadedSites\\"
+		File file = new File("tmp/"
 				+ DemoMD5.MD5("http://www.touro.edu") + ".txt");
 
 		Assert.assertTrue(file.exists());
@@ -118,7 +117,7 @@ public class RepositoryTest {
 
 	public void givenRepository() throws IOException {
 
-		repo = new Repository("C:\\downloadedSites\\");
+		repo = new Repository("tmp");
 
 	}
 

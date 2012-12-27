@@ -31,7 +31,6 @@ public class PageSpider extends Thread{
 			InputStream in = httpConnection.getInputStream();
 			webpage.setHtml(IOUtils.toString(in));
 			in.close();
-			webpage.removeLinks();
 			repository.save(webpage);
 			
 			
@@ -43,10 +42,8 @@ public class PageSpider extends Thread{
 			}
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
