@@ -41,8 +41,7 @@ public class Webpage {
 					link = url.toString() + link;
 				}
 
-				URL newUrl;
-
+				URL newUrl; 
 				newUrl = new URL(link);
 
 				links.add(newUrl);
