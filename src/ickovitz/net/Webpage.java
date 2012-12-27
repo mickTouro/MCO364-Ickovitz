@@ -42,7 +42,8 @@ public class Webpage {
 				}
 
 				URL newUrl;
-                                                       Url = new URL(link);
+
+				newUrl = new URL(link);
 
 				links.add(newUrl);
 			} catch (MalformedURLException e) {
