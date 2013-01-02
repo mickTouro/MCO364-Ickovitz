@@ -1,6 +1,5 @@
 package ickovitz.net;
 
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -13,8 +12,9 @@ public class Webpage {
 	private String taglessHtml;
 	private URL url;
 	private ArrayList<URL> links;
-	private Pattern pattern = Pattern.compile("<a.*?href=\"(.+?)\"",
+	private Pattern linkPattern = Pattern.compile("<a.*?href=\"(.+?)\"",
 			Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+
 
 	public Webpage(String url) {
 		try {
@@ -31,7 +31,7 @@ public class Webpage {
 	public void extractLinks() {
 		links = new ArrayList<URL>();
 
-		Matcher matcher = pattern.matcher(html);
+		Matcher matcher = linkPattern.matcher(html);
 		while (matcher.find()) {
 
 			try {
@@ -40,8 +40,11 @@ public class Webpage {
 				if (link.charAt(0) == '/') {
 					link = url.toString() + link;
 				}
+				else if (!link.startsWith("http:")){
+					link = url.toString() + "/" + link;
+				}
 
-				URL newUrl; 
+				URL newUrl;
 				newUrl = new URL(link);
 
 				links.add(newUrl);
@@ -51,11 +54,12 @@ public class Webpage {
 		}
 	}
 
-	public void removeTags(){
-		taglessHtml = html.replaceAll("(?s)<.*?>", "\n");
-		
+	public void removeTags() {
+		taglessHtml = html.replaceAll("(?i)<script.*?</script>", "");
+
+		taglessHtml = taglessHtml.replaceAll("<(.|\n)*?>", "");
 	}
-	
+
 	public void setHtml(String html) {
 		this.html = html;
 		extractLinks();
@@ -68,8 +72,8 @@ public class Webpage {
 	public String getHtml() {
 		return html;
 	}
-	
-	public String getLinklessHtml(){
+
+	public String getTaglessHtml() {
 		return taglessHtml;
 	}
 
@@ -80,5 +84,4 @@ public class Webpage {
 	public ArrayList<URL> getLinks() {
 		return links;
 	}
-
 }

@@ -8,14 +8,11 @@ public class InitiateSpider {
 	public static void main(String args[]) throws IOException {
 
 		Repository repository = new Repository("C:/downloadedSites/");
+		SpiderOptions options = new SpiderOptions("touro.edu");
 
-		try {
-			PageSpider pageSpider = new PageSpider("http://www.touro.edu",
-					repository);
-			pageSpider.start();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
+		PageSpider pageSpider = new PageSpider("http://www.touro.edu",
+				repository, options);
+		pageSpider.start();
 
 	}
 }

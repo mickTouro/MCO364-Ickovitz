@@ -40,8 +40,9 @@ public class Repository {
 				);
 		BufferedWriter out = new BufferedWriter(new FileWriter(
 				directory.toString() + "/" + md5name + ".txt"));
+		
 		webpage.removeTags();
-		out.write(webpage.getLinklessHtml());
+		out.write(webpage.getTaglessHtml());
 		out.close();
 	}
 
