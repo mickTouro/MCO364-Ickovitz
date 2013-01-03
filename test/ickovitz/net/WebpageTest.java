@@ -30,7 +30,8 @@ public class WebpageTest {
 	}
 
 	private void thenTagsRemoved() {
-		Assert.assertEquals("Click here for touro.Here's another link.", page.getTaglessHtml());
+		Assert.assertEquals("Click here for touro.Here's another link.",
+				page.getTaglessHtml());
 
 	}
 

@@ -15,7 +15,6 @@ public class Webpage {
 	private Pattern linkPattern = Pattern.compile("<a.*?href=\"(.+?)\"",
 			Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
 
-
 	public Webpage(String url) {
 		try {
 			this.url = new URL(url);
@@ -39,8 +38,7 @@ public class Webpage {
 
 				if (link.charAt(0) == '/') {
 					link = url.toString() + link;
-				}
-				else if (!link.startsWith("http:")){
+				} else if (!link.startsWith("http:")) {
 					link = url.toString() + "/" + link;
 				}
 

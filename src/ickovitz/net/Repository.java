@@ -22,7 +22,7 @@ public class Repository {
 	public Repository(File directory) throws IOException {
 		this.directory = directory;
 		this.directory.mkdirs();
-		deleteCache();
+		//deleteCache();
 	}
 
 	public boolean isCached(URL url) throws IOException,

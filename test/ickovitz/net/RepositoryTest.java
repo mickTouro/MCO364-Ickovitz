@@ -102,8 +102,8 @@ public class RepositoryTest {
 
 	private void thenFileExists() throws NoSuchAlgorithmException,
 			UnsupportedEncodingException {
-		File file = new File("tmp/"
-				+ DemoMD5.MD5("http://www.touro.edu") + ".txt");
+		File file = new File("tmp/" + DemoMD5.MD5("http://www.touro.edu")
+				+ ".txt");
 
 		Assert.assertTrue(file.exists());
 	}

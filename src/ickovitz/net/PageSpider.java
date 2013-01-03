@@ -6,6 +6,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.apache.commons.io.IOUtils;
 
@@ -14,10 +17,12 @@ public class PageSpider extends Thread {
 	private Webpage webpage;
 	private Repository repository;
 	private SpiderOptions options;
+	private LinkedBlockingQueue<String> queue;
 
-	public PageSpider(String url, Repository repository, SpiderOptions options) {
-		webpage = new Webpage(url);
+	public PageSpider(Repository repository, LinkedBlockingQueue<String> queue,
+			SpiderOptions options) {
 		this.repository = repository;
+		this.queue = queue;
 		this.options = options;
 	}
 
@@ -32,27 +37,35 @@ public class PageSpider extends Thread {
 	}
 
 	public void run() {
+
+		String link;
 		try {
-			HttpURLConnection httpConnection = (HttpURLConnection) webpage
-					.getURL().openConnection();
+			while ((link = queue.take()) != null) {
 
-			InputStream in = httpConnection.getInputStream();
-			webpage.setHtml(IOUtils.toString(in));
-			in.close();
-			repository.save(webpage);
+				try {
 
-			for (URL s : webpage.getLinks()) {
-				if (!repository.isCached(s)
-						&& s.toString().contains(options.getSiteNameContains())) {
-					PageSpider newSpider = new PageSpider(s.toString(),
-							repository, options);
-					newSpider.start();
+					webpage = new Webpage(link);
+					HttpURLConnection httpConnection = (HttpURLConnection) webpage
+							.getURL().openConnection();
+
+					InputStream in = httpConnection.getInputStream();
+					webpage.setHtml(IOUtils.toString(in));
+					in.close();
+					repository.save(webpage);
+
+					for (URL s : webpage.getLinks()) {
+						if (!repository.isCached(s)
+								&& s.toString().contains(
+										options.getSiteNameContains())) {
+							queue.add(s.toString());
+						}
+
+					}
+				} catch (Exception e) {
+					System.out.println(e);
 				}
 			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (NoSuchAlgorithmException e) {
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
