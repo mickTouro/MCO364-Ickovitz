@@ -9,6 +9,9 @@ import java.security.NoSuchAlgorithmException;
 
 import junit.framework.Assert;
 
+import org.apache.commons.io.FileUtils;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import codeobsessed.MD5.DemoMD5;
@@ -18,6 +21,16 @@ public class RepositoryTest {
 	private Repository repo;
 	private Webpage page;
 
+	@Before @After
+	public void preAndPostTest(){
+		repo = null;
+		try {
+			FileUtils.cleanDirectory(new File("tmp/"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Test
 	public void testSave() throws IOException, NoSuchAlgorithmException {
 

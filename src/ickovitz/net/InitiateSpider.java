@@ -2,6 +2,7 @@ package ickovitz.net;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,12 +13,12 @@ public class InitiateSpider {
 
 	public static void main(String args[]) throws IOException {
 
-		LinkedBlockingQueue<String> list = new LinkedBlockingQueue<String>();
+		LinkedBlockingQueue<URL> list = new LinkedBlockingQueue<URL>();
 		
-		list.add("http://www.touro.edu");
+		list.add(new URL("http://en.wikipedia.org/wiki/Jews"));
 		
 		Repository repository = new Repository("C:/downloadedSites/");
-		SpiderOptions options = new SpiderOptions("touro.edu");
+		SpiderOptions options = new SpiderOptions("wikipedia.org");
 
 		PageSpider pageSpider1 = new PageSpider(repository, list, options);
 		PageSpider pageSpider2 = new PageSpider(repository, list, options);

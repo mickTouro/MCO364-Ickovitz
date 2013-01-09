@@ -17,9 +17,9 @@ public class PageSpider extends Thread {
 	private Webpage webpage;
 	private Repository repository;
 	private SpiderOptions options;
-	private LinkedBlockingQueue<String> queue;
+	private LinkedBlockingQueue<URL> queue;
 
-	public PageSpider(Repository repository, LinkedBlockingQueue<String> queue,
+	public PageSpider(Repository repository, LinkedBlockingQueue<URL> queue,
 			SpiderOptions options) {
 		this.repository = repository;
 		this.queue = queue;
@@ -38,7 +38,7 @@ public class PageSpider extends Thread {
 
 	public void run() {
 
-		String link;
+		URL link;
 		try {
 			while ((link = queue.take()) != null) {
 
@@ -51,13 +51,17 @@ public class PageSpider extends Thread {
 					InputStream in = httpConnection.getInputStream();
 					webpage.setHtml(IOUtils.toString(in));
 					in.close();
+					System.out.println("Thread "
+							+ Thread.currentThread().getId() + ":  "
+							+ webpage.getURL().toString());
 					repository.save(webpage);
 
 					for (URL s : webpage.getLinks()) {
 						if (!repository.isCached(s)
+								&& !queue.contains(s)
 								&& s.toString().contains(
 										options.getSiteNameContains())) {
-							queue.add(s.toString());
+							queue.add(s);
 						}
 
 					}

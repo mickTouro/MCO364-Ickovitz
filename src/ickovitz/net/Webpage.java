@@ -11,20 +11,35 @@ public class Webpage {
 	private String html;
 	private String taglessHtml;
 	private URL url;
+	private URL homePage;
 	private ArrayList<URL> links;
 	private Pattern linkPattern = Pattern.compile("<a.*?href=\"(.+?)\"",
 			Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
 
-	public Webpage(String url) {
-		try {
-			this.url = new URL(url);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public Webpage(URL url) {
 		this.url = url;
+		findHomePage();
+	}
+
+	public Webpage(String url) throws MalformedURLException {
+		this(new URL(url));
+
+	}
+
+	public void findHomePage() {
+		char[] chars = url.toString().toCharArray();
+		String validUrl = "";
+		for (int index = 0; index < chars.length; index++) {
+			validUrl += chars[index];
+			if (validUrl.matches(".*\\.(com|info|net|org|edu|gov)")) {
+				try {
+					homePage = new URL(validUrl);
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+				}
+				break;
+			}
+		}
 	}
 
 	public void extractLinks() {
@@ -37,8 +52,12 @@ public class Webpage {
 				String link = matcher.group(1);
 
 				if (link.charAt(0) == '/') {
-					link = url.toString() + link;
+					link = homePage + link;
+				} else if (link.charAt(0) == '#') {
+					continue;
+
 				} else if (!link.startsWith("http:")) {
+
 					link = url.toString() + "/" + link;
 				}
 
@@ -81,5 +100,9 @@ public class Webpage {
 
 	public ArrayList<URL> getLinks() {
 		return links;
+	}
+	
+	public URL getHomePage() {
+		return homePage;
 	}
 }
