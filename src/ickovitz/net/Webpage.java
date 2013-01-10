@@ -72,8 +72,8 @@ public class Webpage {
 	}
 
 	public void removeTags() {
-		taglessHtml = html.replaceAll("(?i)<script.*?</script>", "");
-
+		taglessHtml = html.replaceAll("(?s)(?i)(?m)<script.*?</script>", "");
+		taglessHtml = taglessHtml.replaceAll("(?s)(?i)(?m)<style.*?</style>", "");
 		taglessHtml = taglessHtml.replaceAll("<(.|\n)*?>", "");
 	}
 

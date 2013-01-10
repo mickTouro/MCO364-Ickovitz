@@ -60,7 +60,7 @@ public class WebpageTest {
 	}
 
 	private void thenTagsRemoved() {
-		Assert.assertEquals("Click here for touro.Here's another link.",
+		Assert.assertEquals("Click here for touro.Here's another link.Here is some Text",
 				page.getTaglessHtml());
 
 	}
@@ -89,6 +89,12 @@ public class WebpageTest {
 		String html = "<a href=\"http://www.touro.edu\">Click here for touro.</a>";
 		html += "<a class=\"title\" href=\"http://www.touro.edu/link2\">";
 		html += "<A CLASS=\"MAIN\" HREF=\"http://www.touro.edu/link3/f.pdf\">Here's another link.</A>";
+		html += "<select id=\"newID\">Here is some Text</select>";
+		html += "<script>if(window.mw){mw.loader.load([\"mediawik" +
+				"i.page.\nstartup\",\"mediawiki.legacy.wikibits\",\"me" +
+				"diawiki.legacy.ajax\",\"ext.vector.footerCleanup\",\"ex" +
+				"t.wikimediaShopLink.core\",\"ext.centralNoti" +
+				"ce.bannerController\"]);}</script>";
 
 		page = new Webpage(new URL("http://www.touro.edu/onlineCourses"));
 

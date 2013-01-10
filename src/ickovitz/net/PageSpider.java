@@ -44,26 +44,27 @@ public class PageSpider extends Thread {
 
 				try {
 
-					webpage = new Webpage(link);
-					HttpURLConnection httpConnection = (HttpURLConnection) webpage
-							.getURL().openConnection();
+					if (!repository.isCached(link)) {
+						webpage = new Webpage(link);
+						HttpURLConnection httpConnection = (HttpURLConnection) webpage
+								.getURL().openConnection();
 
-					InputStream in = httpConnection.getInputStream();
-					webpage.setHtml(IOUtils.toString(in));
-					in.close();
-					System.out.println("Thread "
-							+ Thread.currentThread().getId() + ":  "
-							+ webpage.getURL().toString());
-					repository.save(webpage);
+						InputStream in = httpConnection.getInputStream();
+						webpage.setHtml(IOUtils.toString(in));
+						in.close();
+						System.out.println("Thread "
+								+ Thread.currentThread().getId() + ":  "
+								+ webpage.getURL().toString());
+						repository.save(webpage);
 
-					for (URL s : webpage.getLinks()) {
-						if (!repository.isCached(s)
-								&& !queue.contains(s)
-								&& s.toString().contains(
-										options.getSiteNameContains())) {
-							queue.add(s);
+						for (URL s : webpage.getLinks()) {
+							if (!repository.isCached(s)
+									&& s.toString().contains(
+											options.getSiteNameContains())) {
+								queue.add(s);
+							}
+
 						}
-
 					}
 				} catch (Exception e) {
 					System.out.println(e);

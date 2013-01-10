@@ -15,10 +15,10 @@ public class InitiateSpider {
 
 		LinkedBlockingQueue<URL> list = new LinkedBlockingQueue<URL>();
 		
-		list.add(new URL("http://en.wikipedia.org/wiki/Jews"));
+		list.add(new URL("http://www.yahoo.com"));
 		
 		Repository repository = new Repository("C:/downloadedSites/");
-		SpiderOptions options = new SpiderOptions("wikipedia.org");
+		SpiderOptions options = new SpiderOptions("yahoo.com");
 
 		PageSpider pageSpider1 = new PageSpider(repository, list, options);
 		PageSpider pageSpider2 = new PageSpider(repository, list, options);
