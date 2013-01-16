@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 import junit.framework.Assert;
 
@@ -31,6 +32,28 @@ public class RepositoryTest {
 		}
 	}
 	
+	@Test
+	public void testSearchFiles() throws IOException, NoSuchAlgorithmException {
+		givenRepository();
+		
+		whenSave();
+		whenSearchFiles();
+		
+		thenFilesFound();
+	}
+	
+	private void thenFilesFound() throws IOException, NoSuchAlgorithmException {
+		ArrayList<String> array = new ArrayList<String>();
+		array.add(DemoMD5.MD5("http://www.touro.edu") + ".txt");
+		Assert.assertEquals(array, repo.searchFiles("sample"));
+		
+	}
+
+	private void whenSearchFiles() throws IOException {
+		repo.searchFiles("sample");
+		
+	}
+
 	@Test
 	public void testSave() throws IOException, NoSuchAlgorithmException {
 
