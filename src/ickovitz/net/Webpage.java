@@ -73,7 +73,8 @@ public class Webpage {
 
 	public void removeTags() {
 		taglessHtml = html.replaceAll("(?s)(?i)(?m)<script.*?</script>", "");
-		taglessHtml = taglessHtml.replaceAll("(?s)(?i)(?m)<style.*?</style>", "");
+		taglessHtml = taglessHtml.replaceAll("(?s)(?i)(?m)<style.*?</style>",
+				"");
 		taglessHtml = taglessHtml.replaceAll("<(.|\n)*?>", "");
 	}
 
@@ -101,7 +102,7 @@ public class Webpage {
 	public ArrayList<URL> getLinks() {
 		return links;
 	}
-	
+
 	public URL getHomePage() {
 		return homePage;
 	}

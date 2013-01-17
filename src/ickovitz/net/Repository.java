@@ -1,10 +1,7 @@
 package ickovitz.net;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
@@ -40,16 +37,33 @@ public class Repository {
 			}
 		}
 		return list;
+	}
 
+	public ArrayList<String> searchFiles(String ... keywords) throws IOException {
+
+		ArrayList<String> list = new ArrayList<String>();
+
+		for (File file : directory.listFiles()) {
+			String fileText = FileUtils.readFileToString(file);
+			boolean inAllFiles = true;
+			for (String keyword : keywords) {
+				if (!fileText.contains(keyword)) {
+					inAllFiles = false;
+					break;
+				}
+			}
+			if (inAllFiles) {
+				list.add(file.getName());
+			}
+		}
+		return list;
 	}
 
 	public void searchWithinFiles(String keyword) throws IOException {
-		String textToDisplay = "\"" + keyword + "\" found in: \n";
+		StringBuilder textToDisplay = new StringBuilder("\"" + keyword
+				+ "\" found in: \n");
 		String fileText;
 		int index;
-		int begIndex;
-		int endIndex;
-		int length;
 		for (File file : directory.listFiles()) {
 			fileText = FileUtils.readFileToString(file);
 			index = fileText.indexOf(keyword);
@@ -57,29 +71,29 @@ public class Repository {
 			if (index == -1) {
 				continue;
 			} else {
-				textToDisplay += "\n" + file.toString() + ":\n";
-				length = fileText.length();
-
-				do {
-					if (index <= 50) {
-						begIndex = 0;
-					} else {
-						begIndex = index - 50;
-					}
-
-					if (index + 49 >= length) {
-						endIndex = length - 1;
-					} else {
-						endIndex = index + 50;
-					}
-
-					textToDisplay += fileText.substring(begIndex, endIndex) + "\n";
-					index = fileText.indexOf(keyword, index + 1);
-
-				} while (index != -1);
+				addOccurancesToString(keyword, textToDisplay, fileText, index,
+						file);
 			}
 		}
 		System.out.println(textToDisplay);
+	}
+
+	public void addOccurancesToString(String keyword,
+			StringBuilder textToDisplay, String fileText, int index, File file) {
+		int begIndex;
+		int endIndex;
+		int length;
+		textToDisplay.append("\n").append(file.toString()).append(":\n");
+		length = fileText.length();
+
+		do {
+			begIndex = Math.max(index - 50, 0);
+			endIndex = Math.min(length - 1, index + 50);
+
+			textToDisplay.append(fileText.substring(begIndex, endIndex))
+					.append("\n");
+			index = fileText.indexOf(keyword, index + 1);
+		} while (index != -1);
 	}
 
 	public boolean isCached(URL url) throws IOException,

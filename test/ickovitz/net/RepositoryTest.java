@@ -7,9 +7,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-
 import junit.framework.Assert;
-
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -22,8 +20,9 @@ public class RepositoryTest {
 	private Repository repo;
 	private Webpage page;
 
-	@Before @After
-	public void preAndPostTest(){
+	@Before
+	@After
+	public void preAndPostTest() {
 		repo = null;
 		try {
 			FileUtils.cleanDirectory(new File("tmp/"));
@@ -31,28 +30,28 @@ public class RepositoryTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
-	public void testSearchFiles() throws IOException, NoSuchAlgorithmException {
+	public void testSearchFilesArray() throws IOException, NoSuchAlgorithmException{
 		givenRepository();
 		
 		whenSave();
-		whenSearchFiles();
+		whenSearchFilesUsingArray();
 		
 		thenFilesFound();
 	}
 	
-	private void thenFilesFound() throws IOException, NoSuchAlgorithmException {
-		ArrayList<String> array = new ArrayList<String>();
-		array.add(DemoMD5.MD5("http://www.touro.edu") + ".txt");
-		Assert.assertEquals(array, repo.searchFiles("sample"));
-		
-	}
 
-	private void whenSearchFiles() throws IOException {
-		repo.searchFiles("sample");
-		
+	@Test
+	public void testSearchFiles() throws IOException, NoSuchAlgorithmException {
+		givenRepository();
+
+		whenSave();
+		whenSearchFiles();
+
+		thenFilesFound();
 	}
+	
 
 	@Test
 	public void testSave() throws IOException, NoSuchAlgorithmException {
@@ -119,6 +118,23 @@ public class RepositoryTest {
 		whenSaveMyHtml();
 
 		thenHtmlRetrieved();
+
+	}
+
+	private void whenSearchFilesUsingArray() throws IOException {
+		repo.searchFiles("sample", "Here", "is");
+		
+	}
+
+	private void thenFilesFound() throws IOException, NoSuchAlgorithmException {
+		ArrayList<String> array = new ArrayList<String>();
+		array.add(DemoMD5.MD5("http://www.touro.edu") + ".txt");
+		Assert.assertEquals(array, repo.searchFiles("sample"));
+
+	}
+
+	private void whenSearchFiles() throws IOException {
+		repo.searchFiles("sample");
 
 	}
 

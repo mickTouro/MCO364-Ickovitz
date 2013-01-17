@@ -1,15 +1,10 @@
 package ickovitz.net;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
-import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
-
 import org.apache.commons.io.IOUtils;
 
 public class PageSpider extends Thread {

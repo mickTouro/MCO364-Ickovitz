@@ -4,8 +4,10 @@ import java.io.IOException;
 
 public class FindText {
 
-	public static void main(String args[]) throws IOException{
+	public static void main(String args[]) throws IOException {
 		Repository repo = new Repository("C:/downloadedSites/");
-		repo.searchWithinFiles(" was the only ");
+		System.out.println(repo.searchFiles("car", "steering", "wheel", "tire",
+				"engine", "lights", "bumper").toString());
+		// repo.searchWithinFiles("automatic transmission");
 	}
 }
