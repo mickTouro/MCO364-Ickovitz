@@ -15,6 +15,11 @@ public class Webpage {
 	private ArrayList<URL> links;
 	private Pattern linkPattern = Pattern.compile("<a.*?href=\"(.+?)\"",
 			Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+	private Pattern tagPattern = Pattern.compile("<(.|\n)*?>");
+	private Pattern scriptPattern = Pattern
+			.compile("(?s)(?i)(?m)<script.*?</script>");
+	private Pattern stylePattern = Pattern
+			.compile("(?s)(?i)(?m)<style.*?</style>");
 
 	public Webpage(URL url) {
 		this.url = url;
@@ -72,10 +77,14 @@ public class Webpage {
 	}
 
 	public void removeTags() {
-		taglessHtml = html.replaceAll("(?s)(?i)(?m)<script.*?</script>", "");
-		taglessHtml = taglessHtml.replaceAll("(?s)(?i)(?m)<style.*?</style>",
-				"");
-		taglessHtml = taglessHtml.replaceAll("<(.|\n)*?>", "");
+		Matcher matcher = scriptPattern.matcher(html);
+		taglessHtml = matcher.replaceAll("");
+
+		matcher = stylePattern.matcher(taglessHtml);
+		taglessHtml = matcher.replaceAll("");
+
+		matcher = tagPattern.matcher(taglessHtml);
+		taglessHtml = matcher.replaceAll("");
 	}
 
 	public void setHtml(String html) {
